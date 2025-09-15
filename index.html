@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mosaïque avec zoom 5x5</title>
+<title>immo</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -59,14 +59,16 @@
     const thumbnail = document.getElementById('thumbnail');
     const overlay = document.getElementById('overlay');
     const cells = overlay.querySelectorAll('.cell');
-    const imageUrl = 'Maison.jpg';
+    const imageDefault = 'Maison.jpg';       // image par défaut
+    const imageClicked = 'maisonfermé.png';  // image après clic
 
+    // Initialisation des cellules avec l'image par défaut
     cells.forEach(cell => {
-        cell.style.backgroundImage = `url('${imageUrl}')`;
+        cell.style.backgroundImage = `url('${imageDefault}')`;
+
         cell.addEventListener('click', () => {
-            const posX = Math.floor(Math.random() * 101);
-            const posY = Math.floor(Math.random() * 101);
-            cell.style.backgroundPosition = `${posX}% ${posY}%`;
+            // Change uniquement l'image de la cellule cliquée
+            cell.style.backgroundImage = `url('${imageClicked}')`;
         });
     });
 
@@ -80,6 +82,7 @@
         }
     });
 </script>
+
 
 </body>
 </html>
