@@ -13,8 +13,8 @@
     padding: 18px; background: #222#f6f7fb; color: #222;
     display: flex;
     flex-direction: column;
-    align-items: center;   /* centre horizontalement */
-    justify-content: flex-start; /* pour que ça commence en haut */
+    align-items: center;  
+    justify-content: flex-start; 
     min-height: 100vh;
   }
   h1 { font-size: 18px; margin: 0 0 10px; }
@@ -23,12 +23,12 @@
     box-shadow: 0 6px 20px rgba(20,30,60,0.06);
     cursor: crosshair; display: block;
     max-width: 100%; height: auto;
-    margin: 0 auto; /* sécurité si flexbox ne s'applique pas */
+    margin: 0 auto; 
   }
   .btn {
     padding: 6px 10px; border-radius: 6px;
     background: rgb(202, 4, 4); color: white; border: 0; cursor: pointer;
-    margin: 10px auto;   /* centre le bouton aussi */
+    margin: 10px auto;  
     display: block;
   }
 </style>
@@ -43,11 +43,9 @@
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
 
-// --- Fixer le quadrillage
 const cols = 24;
 const rows = 18;
 
-// Images ouvertes/fermées
 const imgOpen = new Image();
 const imgClosed = new Image();
 imgOpen.src = 'maison.jpg';
