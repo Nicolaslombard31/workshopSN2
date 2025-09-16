@@ -35,7 +35,6 @@
 </head>
 <body>
 
-<button class="btn" id="clearBtn">Vider (tout ouvert)</button>
 <canvas id="canvas"></canvas>
 <button class="btn" id="retourIndex">Retourner sur la page de recherche</button>
 
@@ -83,20 +82,6 @@ function draw() {
       }
     }
   }
-
-  // grille
-  ctx.save();
-  ctx.strokeStyle = 'rgba(0,0,0,0.12)';
-  ctx.lineWidth = 1;
-  for (let i = 1; i < cols; i++) {
-    const x = i * cellW + 0.5;
-    ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, canvas.height); ctx.stroke();
-  }
-  for (let j = 1; j < rows; j++) {
-    const y = j * cellH + 0.5;
-    ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(canvas.width, y); ctx.stroke();
-  }
-  ctx.restore();
 }
 
 function getCanvasPos(evt) {
@@ -130,12 +115,6 @@ canvas.addEventListener('mousemove', e=>{
   if (!isMouseDown) return;
   const pos = getCanvasPos(e);
   toggleCellAt(pos.x,pos.y);
-});
-
-// bouton vider
-document.getElementById('clearBtn').addEventListener('click', ()=>{
-  cells = Array.from({length: rows}, () => Array(cols).fill(false));
-  draw();
 });
 
 document.getElementById('retourIndex').addEventListener('click', ()=>{
