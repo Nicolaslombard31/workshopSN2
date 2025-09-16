@@ -1,0 +1,295 @@
+<!doctype html>
+<html lang="fr">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Quadrillage cliquable - superposition maisons</title>
+    <style>
+        body {
+            font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+            padding: 18px;
+            background: #f6f7fb;
+            color: #222;
+        }
+
+        h1 {
+            font-size: 18px;
+            margin: 0 0 10px;
+        }
+
+        #controls {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            margin-bottom: 10px;
+            flex-wrap: wrap;
+        }
+
+        label {
+            font-size: 13px;
+        }
+
+        input[type=number] {
+            width: 70px;
+        }
+
+        canvas {
+            background: white;
+            border: 1px solid #ddd;
+            box-shadow: 0 6px 20px rgba(20, 30, 60, 0.06);
+            cursor: crosshair;
+            display: block;
+            max-width: 100%;
+            height: auto;
+        }
+
+        .btn {
+            padding: 6px 10px;
+            border-radius: 6px;
+            background: #2b7cff;
+            color: white;
+            border: 0;
+            cursor: pointer;
+        }
+
+        .btn.secondary {
+            background: #e6e9f2;
+            color: #111;
+        }
+
+        small {
+            display: block;
+            margin-top: 6px;
+            color: #555;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Quadrillage cliquable — superposer deux maisons</h1>
+
+    <div id="controls">
+        <label>Colonnes: <input id="cols" type="number" min="2" value="24"></label>
+        <label>Lignes: <input id="rows" type="number" min="2" value="18"></label>
+        <button class="btn" id="resizeBtn">Redimensionner quadrillage</button>
+        <button class="btn secondary" id="clearBtn">Vider (tout ouvert)</button>
+        <button class="btn secondary" id="fillBtn">Remplir (tout fermé)</button>
+        <button class="btn" id="exportBtn">Exporter PNG</button>
+        <label style="margin-left:8px;"><input id="showGrid" type="checkbox" checked> Voir quadrillage</label>
+        <label style="margin-left:6px;"><input id="dragMode" type="checkbox"> Peindre en glissant</label>
+    </div>
+
+    <canvas id="canvas"></canvas>
+    <small>Instructions: clique sur une case pour basculer. Ajuste <b>colonnes</b> pour affiner (ex: augmenter colonnes
+        pour fermer précisément la moitié d'un volet).</small>
+
+    <script>
+        /*
+         Fonctionnement:
+         - On charge les deux images (maison ouverte / maison fermée).
+         - On dessine l'image ouverte en fond.
+         - La grille est un tableau booléen cells[row][col] (true = fermer -> dessiner image2 sur la case).
+         - Pour dessiner l'image2 sur une cellule on utilise ctx.save(); ctx.beginPath(); ctx.rect(...); ctx.clip(); ctx.drawImage(img2,...); ctx.restore();
+         - Click: on détermine la cellule en fonction des coordonnées du clic, puis on inverse l'état et redraw().
+         - Drag painting : si activé, maintiens souris enfoncée et survole pour peindre/ basculer.
+        */
+
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+
+        const imgOpen = new Image();
+        const imgClosed = new Image();
+
+        // Nom de fichiers : modifie si besoin
+        imgOpen.src = 'maison.jpg';
+        imgClosed.src = 'maisonfermé.png';
+
+        const colsInput = document.getElementById('cols');
+        const rowsInput = document.getElementById('rows');
+        const resizeBtn = document.getElementById('resizeBtn');
+        const clearBtn = document.getElementById('clearBtn');
+        const fillBtn = document.getElementById('fillBtn');
+        const exportBtn = document.getElementById('exportBtn');
+        const showGridCheckbox = document.getElementById('showGrid');
+        const dragModeCheckbox = document.getElementById('dragMode');
+
+        let cols = parseInt(colsInput.value, 10) || 24;
+        let rows = parseInt(rowsInput.value, 10) || 18;
+        let cells = []; // array rows x cols of false/true
+
+        let isMouseDown = false;
+        let lastToggled = null; // to prevent retrigger same cell while dragging
+
+        function initCells() {
+            cells = new Array(rows);
+            for (let r = 0; r < rows; r++) {
+                cells[r] = new Array(cols).fill(false);
+            }
+        }
+
+        function resizeCanvasToImage(w, h) {
+            canvas.width = w;
+            canvas.height = h;
+            canvas.style.width = Math.min(w, 900) + 'px'; // limit display width but keep internal resolution
+            canvas.style.height = (canvas.style.width.replace('px', '') * (h / w)) + 'px';
+        }
+
+        function draw() {
+            if (!imgOpen.complete || !imgClosed.complete) return;
+            // draw base image
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.drawImage(imgOpen, 0, 0, canvas.width, canvas.height);
+
+            // draw closed-image onto cells that are true
+            const cellW = canvas.width / cols;
+            const cellH = canvas.height / rows;
+
+            for (let r = 0; r < rows; r++) {
+                for (let c = 0; c < cols; c++) {
+                    if (cells[r][c]) {
+                        const x = Math.round(c * cellW);
+                        const y = Math.round(r * cellH);
+                        const w = Math.ceil(cellW);
+                        const h = Math.ceil(cellH);
+                        ctx.save();
+                        ctx.beginPath();
+                        ctx.rect(x, y, w, h);
+                        ctx.clip();
+                        // draw full image but clipped -> only the rectangle is visible
+                        ctx.drawImage(imgClosed, 0, 0, canvas.width, canvas.height);
+                        ctx.restore();
+                    }
+                }
+            }
+
+            // draw grid overlay if requested
+            if (showGridCheckbox.checked) {
+                ctx.save();
+                ctx.strokeStyle = 'rgba(0,0,0,0.12)';
+                ctx.lineWidth = 1;
+                for (let i = 1; i < cols; i++) {
+                    const x = Math.round(i * cellW) + 0.5;
+                    ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, canvas.height); ctx.stroke();
+                }
+                for (let j = 1; j < rows; j++) {
+                    const y = Math.round(j * cellH) + 0.5;
+                    ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(canvas.width, y); ctx.stroke();
+                }
+                ctx.restore();
+            }
+        }
+
+        // utility to get mouse/touch pos relative to canvas
+        function getCanvasPos(evt) {
+            const rect = canvas.getBoundingClientRect();
+            let clientX, clientY;
+            if (evt.touches && evt.touches[0]) { clientX = evt.touches[0].clientX; clientY = evt.touches[0].clientY; }
+            else { clientX = evt.clientX; clientY = evt.clientY; }
+            const x = (clientX - rect.left) * (canvas.width / rect.width);
+            const y = (clientY - rect.top) * (canvas.height / rect.height);
+            return { x, y };
+        }
+
+        function toggleCellAt(x, y, setTo = null) {
+            const cellW = canvas.width / cols;
+            const cellH = canvas.height / rows;
+            const c = Math.floor(x / cellW);
+            const r = Math.floor(y / cellH);
+            if (r < 0 || r >= rows || c < 0 || c >= cols) return;
+            const key = r + ',' + c;
+            if (lastToggled === key) return; // avoid repeated toggles while dragging
+            lastToggled = key;
+            if (setTo === null) cells[r][c] = !cells[r][c]; else cells[r][c] = !!setTo;
+            draw();
+        }
+
+        canvas.addEventListener('mousedown', e => {
+            isMouseDown = true;
+            lastToggled = null;
+            const pos = getCanvasPos(e);
+            toggleCellAt(pos.x, pos.y);
+        });
+        canvas.addEventListener('mouseup', () => { isMouseDown = false; lastToggled = null; });
+        canvas.addEventListener('mouseleave', () => { isMouseDown = false; lastToggled = null; });
+        canvas.addEventListener('mousemove', e => {
+            if (!isMouseDown) return;
+            if (!dragModeCheckbox.checked) return;
+            const pos = getCanvasPos(e);
+            toggleCellAt(pos.x, pos.y);
+        });
+
+        // touch support
+        canvas.addEventListener('touchstart', e => {
+            isMouseDown = true; lastToggled = null; e.preventDefault();
+            const pos = getCanvasPos(e);
+            toggleCellAt(pos.x, pos.y);
+        }, { passive: false });
+        canvas.addEventListener('touchmove', e => {
+            if (!isMouseDown || !dragModeCheckbox.checked) return;
+            e.preventDefault();
+            const pos = getCanvasPos(e);
+            toggleCellAt(pos.x, pos.y);
+        }, { passive: false });
+        canvas.addEventListener('touchend', () => { isMouseDown = false; lastToggled = null; });
+
+        resizeBtn.addEventListener('click', () => {
+            const newCols = parseInt(colsInput.value, 10);
+            const newRows = parseInt(rowsInput.value, 10);
+            if (!isFinite(newCols) || !isFinite(newRows) || newCols < 2 || newRows < 2) {
+                alert('Valeurs invalides pour colonnes/lignes.');
+                return;
+            }
+            cols = newCols; rows = newRows;
+            initCells();
+            draw();
+        });
+
+        clearBtn.addEventListener('click', () => {
+            initCells();
+            draw();
+        });
+        fillBtn.addEventListener('click', () => {
+            for (let r = 0; r < rows; r++) for (let c = 0; c < cols; c++) cells[r][c] = true;
+            draw();
+        });
+
+        exportBtn.addEventListener('click', () => {
+            // export canvas to dataURL
+            const url = canvas.toDataURL('image/png');
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'maison_mix.png';
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+        });
+
+        // when images are loaded, set canvas size to image size then draw
+        function onBothLoaded() {
+            if (!imgOpen.complete || !imgClosed.complete) return;
+            // prefer the natural image size (or scale down on screen)
+            const w = imgOpen.naturalWidth || 800;
+            const h = imgOpen.naturalHeight || 600;
+            resizeCanvasToImage(w, h);
+            initCells();
+            draw();
+        }
+
+        imgOpen.onload = onBothLoaded;
+        imgClosed.onload = onBothLoaded;
+
+        // re-draw when window resizes to keep crispness (canvas internal size stays same)
+        window.addEventListener('resize', () => {
+            // just adjust displayed CSS size to keep aspect ratio
+            // we keep canvas.width/height unchanged so drawing stays crisp; style only changes
+            if (canvas.width && canvas.height) {
+                canvas.style.width = Math.min(canvas.width, 900) + 'px';
+                canvas.style.height = (canvas.style.width.replace('px', '') * (canvas.height / canvas.width)) + 'px';
+            }
+        });
+
+    </script>
+</body>
+
+</html>
