@@ -38,10 +38,9 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <h1>Realtime Edge Messaging with Next and Ably</h1>
+      <h1>DSE Hub de communication</h1>
       <p>
-        Use the buttons below to send and receive messages or to update your
-        status.
+        Vous êtes bien en relation avec la DSE, Toute personne non abilité à être présente sur le site est appelé à nous prevenir avant de partir sous peine de représaille
       </p>
 
       <main className={styles.main}>
