@@ -12,37 +12,45 @@
 <body class="font-sans m-0 p-0 bg-gray-50">
 
     <header>
-        <nav class="flex justify-between items-center sticky top-0 w-full z-20 bg-gray-800 shadow-md px-6">
+        <nav class="flex flex-col sm:flex-row justify-between items-center sticky top-0 w-full z-20 bg-gray-800 shadow-md px-6 py-3">
             <a href="tkt.html">
                 <div id="thumbnail"
-                    class="w-12 h-12 rounded-full border-2 border-white shadow-md cursor-pointer bg-cover bg-center"
+                    class="w-12 h-12 rounded-full border-2 border-white shadow-md cursor-pointer bg-cover bg-center mb-2 sm:mb-0"
                     style="background-image: url('Maison.jpg');">
                 </div>
             </a>
 
-            <h1 class="text-center font-bold text-white m-0 p-0">Immo_Maison</h1>
+            <h1 class="text-center font-bold text-white text-lg sm:text-xl mb-2 sm:mb-0">Immo_Maison</h1>
 
-            <ul class="flex space-x-2 m-0 p-0 list-none">
-                <li><a href="a_propos.html"
-                        class="flex items-center px-5 py-3 text-white hover:bg-gray-600 transition">À propos</a></li>
-                <li><a href="contact.html"
-                        class="flex items-center px-5 py-3 text-white hover:bg-gray-600 transition">Contact</a></li>
+            <ul class="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2 list-none text-center">
+                <li>
+                    <a href="a_propos.html"
+                        class="flex justify-center items-center px-5 py-2 text-white hover:bg-gray-600 transition rounded">
+                        À propos
+                    </a>
+                </li>
+                <li>
+                    <a href="contact.html"
+                        class="flex justify-center items-center px-5 py-2 text-white hover:bg-gray-600 transition rounded">
+                        Contact
+                    </a>
+                </li>
             </ul>
         </nav>
     </header>
 
-    <section class="max-w-6xl mx-auto px-4 my-8">
+    <section class="max-w-6xl mx-auto px-4 sm:px-6 my-8">
 
         <div class="flex justify-center mb-6">
-            <div class="flex w-full sm:w-2/3 items-center">
+            <div class="flex flex-col sm:flex-row w-full sm:w-2/3 items-stretch sm:items-center">
                 <input id="searchInput" type="text" placeholder="Rechercher une annonce..."
-                    class="flex-grow border border-gray-300 px-4 py-2 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    class="flex-grow border border-gray-300 px-4 py-2 rounded sm:rounded-l-lg mb-2 sm:mb-0 focus:outline-none focus:ring-2 focus:ring-blue-500">
                 <button id="searchBtn"
-                    class="bg-blue-600 text-white px-4 py-2 hover:bg-blue-700 transition">
+                    class="bg-blue-600 text-white px-4 py-2 mb-2 sm:mb-0 sm:rounded-none hover:bg-blue-700 transition">
                     Rechercher
                 </button>
                 <button id="clearBtn"
-                    class="bg-red-600 text-white px-4 py-2 rounded-r-lg hover:bg-red-700 transition">
+                    class="bg-red-600 text-white px-4 py-2 sm:rounded-r-lg hover:bg-red-700 transition">
                     Effacer
                 </button>
             </div>
@@ -50,56 +58,56 @@
 
         <div id="listingContainer" class="grid gap-6 grid-cols-[repeat(auto-fit,minmax(250px,1fr))]">
             <div class="listing bg-white rounded-xl shadow-md overflow-hidden hover-card">
-                <img src="/image/location1.png" class="w-full h-52 object-cover">
+                <img src="/image/location1.png" class="w-full h-52 sm:h-64 object-cover">
                 <p class="mt-2 mx-4 text-sm font-semibold text-gray-900">Appartement ⋅ 1er Arrondissement</p>
                 <p class="mx-4 text-xs text-gray-600">14-16 nov. Hôte particulier</p>
                 <p class="mx-4 mt-2 font-bold text-lg text-red-600">68 € pour 2 nuits</p>
             </div>
 
             <div class="listing bg-white rounded-xl shadow-md overflow-hidden hover-card">
-                <img src="/image/location2.png" class="w-full h-52 object-cover">
+                <img src="/image/location2.png" class="w-full h-52 sm:h-64 object-cover">
                 <p class="mt-2 mx-4 text-sm font-semibold text-gray-900">Chambre · 5ème Arrondissement</p>
                 <p class="mx-4 text-xs text-gray-600">14-16 nov. Hôte particulier</p>
                 <p class="mx-4 mt-2 font-bold text-lg text-red-600">44 € pour 2 nuits</p>
             </div>
 
             <div class="listing bg-white rounded-xl shadow-md overflow-hidden hover-card">
-                <img src="/image/location3.png" class="w-full h-52 object-cover">
+                <img src="/image/location3.png" class="w-full h-52 sm:h-64 object-cover">
                 <p class="mt-2 mx-4 text-sm font-semibold text-gray-900">Chambre · 5ème Arrondissement</p>
                 <p class="mx-4 text-xs text-gray-600">14-16 nov. Hôte particulier</p>
                 <p class="mx-4 mt-2 font-bold text-lg text-red-600">44 € pour 2 nuits</p>
             </div>
 
             <div class="listing bg-white rounded-xl shadow-md overflow-hidden hover-card">
-                <img src="/image/location4.png" class="w-full h-52 object-cover">
+                <img src="/image/location4.png" class="w-full h-52 sm:h-64 object-cover">
                 <p class="mt-2 mx-4 text-sm font-semibold text-gray-900">Chambre · 5ème Arrondissement</p>
                 <p class="mx-4 text-xs text-gray-600">14-16 nov. Hôte particulier</p>
                 <p class="mx-4 mt-2 font-bold text-lg text-red-600">44 € pour 2 nuits</p>
             </div>
 
             <div class="listing bg-white rounded-xl shadow-md overflow-hidden hover-card">
-                <img src="/image/location5.png" class="w-full h-52 object-cover">
+                <img src="/image/location5.png" class="w-full h-52 sm:h-64 object-cover">
                 <p class="mt-2 mx-4 text-sm font-semibold text-gray-900">Chambre · 5ème Arrondissement</p>
                 <p class="mx-4 text-xs text-gray-600">14-16 nov. Hôte particulier</p>
                 <p class="mx-4 mt-2 font-bold text-lg text-red-600">44 € pour 2 nuits</p>
             </div>
 
             <div class="listing bg-white rounded-xl shadow-md overflow-hidden hover-card">
-                <img src="/image/location6.png" class="w-full h-52 object-cover">
+                <img src="/image/location6.png" class="w-full h-52 sm:h-64 object-cover">
                 <p class="mt-2 mx-4 text-sm font-semibold text-gray-900">Chambre · 5ème Arrondissement</p>
                 <p class="mx-4 text-xs text-gray-600">14-16 nov. Hôte particulier</p>
                 <p class="mx-4 mt-2 font-bold text-lg text-red-600">44 € pour 2 nuits</p>
             </div>
 
             <div class="listing bg-white rounded-xl shadow-md overflow-hidden hover-card">
-                <img src="/image/location7.png" class="w-full h-52 object-cover">
+                <img src="/image/location7.png" class="w-full h-52 sm:h-64 object-cover">
                 <p class="mt-2 mx-4 text-sm font-semibold text-gray-900">Chambre · 5ème Arrondissement</p>
                 <p class="mx-4 text-xs text-gray-600">14-16 nov. Hôte particulier</p>
                 <p class="mx-4 mt-2 font-bold text-lg text-red-600">44 € pour 2 nuits</p>
             </div>
 
             <div class="listing bg-white rounded-xl shadow-md overflow-hidden hover-card">
-                <img src="/image/location8.png" class="w-full h-52 object-cover">
+                <img src="/image/location8.png" class="w-full h-52 sm:h-64 object-cover">
                 <p class="mt-2 mx-4 text-sm font-semibold text-gray-900">Chambre · 5ème Arrondissement</p>
                 <p class="mx-4 text-xs text-gray-600">14-16 nov. Hôte particulier</p>
                 <p class="mx-4 mt-2 font-bold text-lg text-red-600">44 € pour 2 nuits</p>
@@ -138,6 +146,8 @@
 
         clearBtn.addEventListener("click", clearSearch);
     </script>
+
+
     <footer class="bg-gray-800 text-white text-center py-6 mt-12">
         <p>&copy; 2025 - Immo_Maison. Tous droits réservés.</p>
     </footer>
