@@ -12,24 +12,24 @@
 <body class="font-sans m-0 p-0 bg-gray-50">
 
     <header>
-        <nav class="flex justify-center sticky top-0 w-full z-20 bg-gray-800 shadow-md">
-            <ul class="flex justify-center m-0 p-0 list-none">
-                <li>
-                    <a href="tkt.html">
-                        <div id="thumbnail"
-                            class="w-12 h-12 rounded-full border-2 border-white shadow-md cursor-pointer bg-cover bg-center"
-                            style="background-image: url('Maison.jpg');">
-                        </div>
-                    </a>
-                </li>
-                <li><a href="index.html"
-                        class="flex items-center px-5 py-3 text-white hover:bg-gray-600 transition">Accueil</a></li>
-                <li><a href="a_propos.html" class="flex items-center px-5 py-3 text-white hover:bg-gray-600 transition">À propos</a></li>
-                <li><a href="/contact.html"
-                        class="flex items-center px-5 py-3 text-white hover:bg-gray-600 transition">Contact</a></li>
-            </ul>
-        </nav>
-    </header>
+    <nav class="flex justify-between items-center sticky top-0 w-full z-20 bg-gray-800 shadow-md px-6">
+        <a href="tkt.html">
+            <div id="thumbnail"
+                class="w-12 h-12 rounded-full border-2 border-white shadow-md cursor-pointer bg-cover bg-center"
+                style="background-image: url('Maison.jpg');">
+            </div>
+        </a>
+
+        <ul class="flex space-x-2 m-0 p-0 list-none">
+            <li><a href="index.html"
+                    class="flex items-center px-5 py-3 text-white hover:bg-gray-600 transition">Accueil</a></li>
+            <li><a href="a_propos.html"
+                    class="flex items-center px-5 py-3 text-white hover:bg-gray-600 transition">À propos</a></li>
+            <li><a href="contact.html"
+                    class="flex items-center px-5 py-3 text-white hover:bg-gray-600 transition">Contact</a></li>
+        </ul>
+    </nav>
+</header>
 
     <div id="overlay"
         class="fixed top-0 left-0 w-screen h-screen bg-black/70 hidden justify-center items-center z-10 opacity-0 transition-opacity duration-400">
