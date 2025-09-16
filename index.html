@@ -23,7 +23,8 @@
             <h1 class="text-center font-bold text-white m-0 p-0">Immo_Maison</h1>
 
             <ul class="flex space-x-2 m-0 p-0 list-none">
-                
+                <li><a href="index.html"
+                        class="flex items-center px-5 py-3 text-white hover:bg-gray-600 transition">Accueil</a></li>
                 <li><a href="a_propos.html"
                         class="flex items-center px-5 py-3 text-white hover:bg-gray-600 transition">À propos</a></li>
                 <li><a href="contact.html"
@@ -38,10 +39,14 @@
         <div class="flex justify-center mb-6">
             <div class="flex w-full sm:w-2/3 items-center">
                 <input id="searchInput" type="text" placeholder="Rechercher une annonce..."
-                    class="flex-grow border border-gray-300 rounded-l-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    class="flex-grow border border-gray-300 px-4 py-2 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
                 <button id="searchBtn"
-                    class="bg-blue-600 text-white px-4 py-2 rounded-r-lg hover:bg-blue-700 transition">
+                    class="bg-blue-600 text-white px-4 py-2 hover:bg-blue-700 transition">
                     Rechercher
+                </button>
+                <button id="clearBtn"
+                    class="bg-red-600 text-white px-4 py-2 rounded-r-lg hover:bg-red-700 transition">
+                    Effacer
                 </button>
             </div>
         </div>
@@ -109,28 +114,34 @@
     <script>
         const searchInput = document.getElementById("searchInput");
         const searchBtn = document.getElementById("searchBtn");
+        const clearBtn = document.getElementById("clearBtn");
         const listings = document.querySelectorAll(".listing");
 
         function searchListings() {
             const query = searchInput.value.toLowerCase();
             listings.forEach(listing => {
                 const text = listing.innerText.toLowerCase();
-                if (text.includes(query)) {
-                    listing.style.display = "block";
-                } else {
-                    listing.style.display = "none";
-                }
+                listing.style.display = text.includes(query) ? "block" : "none";
+            });
+        }
+
+        function clearSearch() {
+            searchInput.value = "";
+            listings.forEach(listing => {
+                listing.style.display = "block";
             });
         }
 
         searchBtn.addEventListener("click", searchListings);
 
-        // Recherche en direct avec la touche "Entrée"
+        // Recherche avec Entrée
         searchInput.addEventListener("keypress", (e) => {
             if (e.key === "Enter") {
                 searchListings();
             }
         });
+
+        clearBtn.addEventListener("click", clearSearch);
     </script>
 
 </body>
