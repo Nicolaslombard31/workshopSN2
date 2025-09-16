@@ -5,12 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>immo</title>
 <link rel="stylesheet" href="style.css">
+
 </head>
 <body>
-
 <header>
     <nav>
         <ul>
+            <li><a href="tkt.html"><div id="thumbnail"></div></a></li>
             <li><a href="#home">Home</a></li>
             <li><a href="#about">About</a></li>
             <li><a href="#services">Services</a></li>
@@ -18,7 +19,10 @@
         </ul>
     </nav>
 </header>
-<div id="thumbnail"></div>
+
+<div id="overlay">
+    <div class="grid" id="grid"></div>
+</div>
 <div>
     <div><h3>Logement populaires ⋅ Bordeaux</h3></div>
     <div>
@@ -274,71 +278,6 @@
         <p>74 € pour 2 nuits</p>
     </div>
 </div>
-
-
-
-<div id="overlay">
-    <div class="grid">
-        <div class="cell" style="background-position:0% 0%"></div>
-        <div class="cell" style="background-position:25% 0%"></div>
-        <div class="cell" style="background-position:50% 0%"></div>
-        <div class="cell" style="background-position:75% 0%"></div>
-        <div class="cell" style="background-position:100% 0%"></div>
-
-        <div class="cell" style="background-position:0% 25%"></div>
-        <div class="cell" style="background-position:25% 25%"></div>
-        <div class="cell" style="background-position:50% 25%"></div>
-        <div class="cell" style="background-position:75% 25%"></div>
-        <div class="cell" style="background-position:100% 25%"></div>
-
-        <div class="cell" style="background-position:0% 50%"></div>
-        <div class="cell" style="background-position:25% 50%"></div>
-        <div class="cell" style="background-position:50% 50%"></div>
-        <div class="cell" style="background-position:75% 50%"></div>
-        <div class="cell" style="background-position:100% 50%"></div>
-
-        <div class="cell" style="background-position:0% 75%"></div>
-        <div class="cell" style="background-position:25% 75%"></div>
-        <div class="cell" style="background-position:50% 75%"></div>
-        <div class="cell" style="background-position:75% 75%"></div>
-        <div class="cell" style="background-position:100% 75%"></div>
-
-        <div class="cell" style="background-position:0% 100%"></div>
-        <div class="cell" style="background-position:25% 100%"></div>
-        <div class="cell" style="background-position:50% 100%"></div>
-        <div class="cell" style="background-position:75% 100%"></div>
-        <div class="cell" style="background-position:100% 100%"></div>
-    </div>
-</div>
-
-<script>
-    const thumbnail = document.getElementById('thumbnail');
-    const overlay = document.getElementById('overlay');
-    const cells = overlay.querySelectorAll('.cell');
-    const imageDefault = 'Maison.jpg';       // image par défaut
-    const imageClicked = 'maisonfermé.png';  // image après clic
-
-    // Initialisation des cellules avec l'image par défaut
-    cells.forEach(cell => {
-        cell.style.backgroundImage = `url('${imageDefault}')`;
-
-        cell.addEventListener('click', () => {
-            // Change uniquement l'image de la cellule cliquée
-            cell.style.backgroundImage = `url('${imageClicked}')`;
-        });
-    });
-
-    thumbnail.addEventListener('click', () => {
-        overlay.classList.add('show');
-    });
-
-    overlay.addEventListener('click', (e) => {
-        if(e.target === overlay){
-            overlay.classList.remove('show');
-        }
-    });
-</script>
-
 
 </body>
 </html>
