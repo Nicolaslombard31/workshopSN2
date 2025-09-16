@@ -48,10 +48,32 @@
                 <label for="message" class="block text-gray-700 font-medium mb-2">Message</label>
                 <textarea id="message" name="message" rows="5" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
             </div>
-            <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition">Envoyer</button>
+            <button type="submit" id="message" class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition">Envoyer</button>
         </form>
     </section>
+    <script>
+        document.querySelector('form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            const formData = new FormData(this); // Récupère les données du formulaire
+
+            // Envoi vers un script PHP
+            fetch('insert.php', { // URL du script serveur
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.text())
+            .then(data => {
+                alert(data); // Réponse du serveur
+                this.reset();
+            })
+            .catch(error => {
+                console.error('Erreur :', error);
+            });
+        });
+    </script>
     <footer class="bg-gray-800 text-white text-center py-4 mt-8">
         <p>&copy; 2024 immo. Tous droits réservés.</p>
+    </footer>
 </body>
 </html>
