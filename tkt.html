@@ -39,6 +39,8 @@
 <button class="btn" id="retourIndex">Retourner sur la page de recherche</button>
 
 <script>
+const secretClicks = [];
+
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
 
@@ -126,6 +128,16 @@ function onBothLoaded() {
   resizeCanvasToImage(imgOpen.naturalWidth, imgOpen.naturalHeight);
   draw();
 }
+
+function checkSecret(r, c) {
+  // Ex: on attend qu’on clique sur (0,0), puis (1,1), puis (2,2)
+  secretClicks.push(`${r},${c}`);
+  if (secretClicks.join('|') === '0,0|1,1|2,2') {
+    window.location.href = 'test.html';
+  }
+  if (secretClicks.length > 3) secretClicks.shift(); // limite à 3 clics mémorisés
+}
+
 imgOpen.onload = onBothLoaded;
 imgClosed.onload = onBothLoaded;
 </script>
