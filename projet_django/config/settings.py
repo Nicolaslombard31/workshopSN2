@@ -26,12 +26,13 @@ SECRET_KEY = 'django-insecure-p*&93*(o#=l$hq^-g+@e5k&nn-0$u8ked@$x(5tmv!y-0uhfg9
 DEBUG = True
 
 ALLOWED_HOSTS = []
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'nom_de_ta_bdd',
-        'USER': 'utilisateur',
-        'PASSWORD': 'mot_de_passe',
+        'NAME': 'agent_secret',
+        'USER': 'agent007',
+        'PASSWORD': 'agent_007',
         'HOST': 'localhost',
         'PORT': '5432',
     }
