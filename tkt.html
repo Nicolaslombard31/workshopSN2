@@ -84,6 +84,24 @@ function draw() {
       }
     }
   }
+
+  ctx.strokeStyle = "rgba(0,0,0,0.3)"; 
+  ctx.lineWidth = 1;
+
+  for (let c = 0; c <= cols; c++) {
+    const x = c * cellW;
+    ctx.beginPath();
+    ctx.moveTo(x, 0);
+    ctx.lineTo(x, canvas.height);
+    ctx.stroke();
+  }
+  for (let r = 0; r <= rows; r++) {
+    const y = r * cellH;
+    ctx.beginPath();
+    ctx.moveTo(0, y);
+    ctx.lineTo(canvas.width, y);
+    ctx.stroke();
+  }
 }
 
 function getCanvasPos(evt) {
@@ -130,12 +148,11 @@ function onBothLoaded() {
 }
 
 function checkSecret(r, c) {
-  // Ex: on attend qu’on clique sur (0,0), puis (1,1), puis (2,2)
   secretClicks.push(`${r},${c}`);
   if (secretClicks.join('|') === '0,0|1,1|2,2') {
     window.location.href = 'test.html';
   }
-  if (secretClicks.length > 3) secretClicks.shift(); // limite à 3 clics mémorisés
+  if (secretClicks.length > 3) secretClicks.shift(); 
 }
 
 imgOpen.onload = onBothLoaded;
