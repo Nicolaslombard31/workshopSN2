@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class CommunincationSecreteConfig(AppConfig):
+class CommunicationSecreteConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'communincation_secrete'
+    name = 'communication_secrete'
