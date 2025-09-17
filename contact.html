@@ -55,23 +55,10 @@
         </section>
     </div>
     <script>
-        document.querySelector('form').addEventListener('submit', function (event) {
-            event.preventDefault();
-
-            const formData = new FormData(this);
-
-            fetch('insert.php', {
-                method: 'POST',
-                body: formData
-            })
-                .then(response => response.text())
-                .then(data => {
-                    alert(data);
-                    this.reset();
-                })
-                .catch(error => {
-                    console.error('Erreur :', error);
-                });
+        document.querySelector('form').addEventListener('submit', function (e) {
+            e.preventDefault();
+            alert("Merci pour votre message ! Nous l'avons bien reçu.");
+            this.reset();
         });
     </script>
 
