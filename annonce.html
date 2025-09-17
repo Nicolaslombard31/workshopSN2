@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Détails de l'annonce</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-50 font-sans">
+
+  <header class="bg-gray-800 text-white py-4 text-center font-bold text-xl">
+    <span id="annonceTitre">Chargement...</span>
+  </header>
+
+  <main class="max-w-4xl mx-auto px-6 py-8">
+    <img id="annonceImage" src="" class="w-full h-80 object-cover rounded-lg shadow-lg">
+
+    <h2 id="annonceSousTitre" class="mt-6 text-2xl font-bold text-gray-800"></h2>
+    <p id="annonceDescription" class="mt-2 text-gray-700"></p>
+
+    <p id="annoncePrix" class="mt-4 text-lg font-semibold text-red-600"></p>
+
+    <a href="index.html">
+      <button class="mt-6 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition">
+        Retour aux annonces
+      </button>
+    </a>
+  </main>
+
+  <footer class="bg-gray-800 text-white text-center py-6 mt-12">
+    <p>&copy; 2025 - Immo_Maison. Tous droits réservés.</p>
+  </footer>
+
+  <script>
+    const annonces = {
+      1: {
+        titre: "Appartement ⋅ 1er Arrondissement",
+        sousTitre: "Appartement confortable au centre-ville",
+        description: "Situé dans le 1er arrondissement, proche de toutes commodités...",
+        prix: "68 € pour 2 nuits",
+        image: "/image/location1.png"
+      },
+      2: {
+        titre: "Chambre · 5ème Arrondissement",
+        sousTitre: "Charmante chambre dans le 5ème",
+        description: "Logement calme et lumineux avec hôte particulier.",
+        prix: "44 € pour 2 nuits",
+        image: "/image/location2.png"
+      },
+      3: {
+        titre: "Chambre · 5ème Arrondissement",
+        sousTitre: "Chambre cosy proche du centre",
+        description: "Idéal pour une courte escale en ville.",
+        prix: "44 € pour 2 nuits",
+        image: "/image/location3.png"
+      },
+      4: {
+        titre: "Chambre · 5ème Arrondissement",
+        sousTitre: "Chambre simple et pratique",
+        description: "Une option économique pour les voyageurs.",
+        prix: "44 € pour 2 nuits",
+        image: "/image/location4.png"
+      },
+      5: {
+        titre: "Chambre · 5ème Arrondissement",
+        sousTitre: "Chambre agréable avec hôte particulier",
+        description: "Accès facile aux transports en commun.",
+        prix: "44 € pour 2 nuits",
+        image: "/image/location5.png"
+      },
+      6: {
+        titre: "Chambre · 5ème Arrondissement",
+        sousTitre: "Petite chambre conviviale",
+        description: "Ambiance familiale et chaleureuse.",
+        prix: "44 € pour 2 nuits",
+        image: "/image/location6.png"
+      },
+      7: {
+        titre: "Chambre · 5ème Arrondissement",
+        sousTitre: "Chambre avec services de base",
+        description: "Un logement simple pour une nuit.",
+        prix: "44 € pour 2 nuits",
+        image: "/image/location7.png"
+      },
+      8: {
+        titre: "Chambre · 5ème Arrondissement",
+        sousTitre: "Chambre fonctionnelle bien située",
+        description: "Proche des commerces et restaurants.",
+        prix: "44 € pour 2 nuits",
+        image: "/image/location8.png"
+      }
+    };
+
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get("id");
+
+    const annonce = annonces[id];
+
+    if (annonce) {
+      document.getElementById("annonceTitre").textContent = annonce.titre;
+      document.getElementById("annonceSousTitre").textContent = annonce.sousTitre;
+      document.getElementById("annonceDescription").textContent = annonce.description;
+      document.getElementById("annoncePrix").textContent = annonce.prix;
+      document.getElementById("annonceImage").src = annonce.image;
+    } else {
+      document.querySelector("main").innerHTML =
+        "<p class='text-center text-red-600 text-xl'>Annonce introuvable.</p>";
+    }
+  </script>
+</body>
+</html>

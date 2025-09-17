@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>immo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="custom.css" />
+</head>
+
+<body class="font-sans m-0 p-0 bg-gray-50 min-h-screen flex flex-col">
+
+    <header>
+        <nav class="flex flex-col sm:flex-row justify-between items-center sticky top-0 w-full z-20 bg-gray-800 shadow-md px-6 py-3">
+            <a href="tkt.html" class="mb-3 sm:mb-0">
+                <div id="thumbnail"
+                    class="w-12 h-12 rounded-full border-2 border-white shadow-md cursor-pointer bg-cover bg-center"
+                    style="background-image: url('Maison.jpg');">
+                </div>
+            </a>
+
+            <h1 class="text-center font-bold text-white text-lg sm:text-xl mb-3 sm:mb-0">Immo_Maison</h1>
+
+            <ul class="flex space-x-2 m-0 p-0 list-none">
+                <li><a href="index.html"
+                        class="flex items-center px-5 py-2 text-white hover:bg-gray-600 transition rounded">Accueil</a></li>
+                <li><a href="a_propos.html"
+                        class="flex items-center px-5 py-2 text-white hover:bg-gray-600 transition rounded">À propos</a></li>
+            </ul>
+        </nav>
+    </header>
+    <div class="flex items-center justify-center flex-grow">
+        <section id="contact" class="max-w-4xl px-4 sm:px-6 my-8 flex-grow">
+            <h2 class="text-2xl font-semibold text-gray-900 mb-6 text-center sm:text-left">Contactez-nous</h2>
+            <form class="bg-white p-6 rounded-lg shadow-md">
+                <div class="mb-4">
+                    <label for="name" class="block text-gray-700 font-medium mb-2">Nom</label>
+                    <input type="text" id="name" name="name"
+                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                </div>
+                <div class="mb-4">
+                    <label for="email" class="block text-gray-700 font-medium mb-2">Email</label>
+                    <input type="email" id="email" name="email"
+                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                </div>
+                <div class="mb-4">
+                    <label for="message" class="block text-gray-700 font-medium mb-2">Message</label>
+                    <textarea id="message" name="message" rows="5"
+                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+                </div>
+                <button type="submit"
+                    class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition w-full sm:w-auto">Envoyer</button>
+            </form>
+        </section>
+    </div>
+    <script>
+        document.querySelector('form').addEventListener('submit', function (e) {
+            e.preventDefault();
+            alert("Merci pour votre message ! Nous l'avons bien reçu.");
+            this.reset();
+        });
+    </script>
+
+    <footer class="bg-gray-800 text-white text-center py-6 mt-12">
+        <p>&copy; 2025 - Immo_Maison. Tous droits réservés.</p>
+    </footer>
+
+</body>
+
+</html>
