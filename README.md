@@ -66,8 +66,8 @@ La sécurité repose sur l’obfuscation (fausse identité du site) et sur un ac
 
 **Technologies :**
 - Python / [Django](django.md)  
-- JavaScript  
-- Tailwind / CSS / HTML  
+- [JavaScript](javascript.md)  
+- [Tailwind](tailwind.md) / CSS / HTML  
 - PostgreSQL  
 - Git  
 - Jira
@@ -132,7 +132,10 @@ projet/
 ---
 
 
-- [Axes d’améliorations](axes-ameliorations.md)  
+## Axes d’améliorations
+
+- Création d'animation sur l'ouverture/fermeture des volets de la maison
+- Séparation du HTML et du JavaScript dans 2 fichiers distincts pour chaque élément
 
 
 ---
