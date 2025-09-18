@@ -20,3 +20,4 @@ __pycache__/
 
 # Environnements / secrets
 .env
+*settings.py
