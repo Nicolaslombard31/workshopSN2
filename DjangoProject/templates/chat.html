@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>MI6 Secret Chat</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-900 text-white min-h-screen flex flex-col">
+    <nav class="bg-gray-800 p-4 flex justify-between">
+        <span class="text-green-400 font-bold">💂 MI6 Secure Channel</span>
+        <a href="{% url 'logout' %}" class="text-red-400 hover:text-red-600">Logout</a>
+    </nav>
+
+    <main class="flex-grow container mx-auto p-6">
+        <h1 class="text-2xl font-bold mb-4">Bienvenue, Agent {{ user.username }}</h1>
+
+        <!-- Formulaire d'envoi -->
+        <form method="post" class="bg-gray-800 p-4 rounded-lg mb-6">
+            {% csrf_token %}
+            <label class="block mb-2">Destinataire :</label>
+            <select name="receiver" class="text-black rounded w-full p-2 mb-4">
+                {% for agent in agents %}
+                <option value="{{ agent.id }}">{{ agent.username }}</option>
+                {% endfor %}
+            </select>
+
+            <label class="block mb-2">Message :</label>
+            <textarea name="message" rows="3" class="text-black rounded w-full p-2 mb-4"></textarea>
+
+            <button type="submit" class="bg-green-500 hover:bg-green-600 px-4 py-2 rounded-lg text-white font-semibold">
+                Envoyer
+            </button>
+        </form>
+
+        <!-- Liste des messages -->
+        <div class="bg-gray-800 p-4 rounded-lg">
+            <h2 class="text-xl font-bold mb-3">📜 Messages</h2>
+            <ul>
+                {% for msg in messages %}
+                <li class="mb-2">
+                    <span class="font-bold text-green-400">{{ msg.sender.username }}</span>
+                    → <span class="text-blue-400">{{ msg.receiver.username }}</span> :
+                    <span class="text-gray-200">{{ msg.message }}</span>
+                    <small class="text-gray-500">({{ msg.date|date:"H:i d/m/Y" }})</small>
+                </li>
+                {% empty %}
+                <li class="text-gray-400">Aucun message pour le moment...</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </main>
+</body>
+
+</html>
