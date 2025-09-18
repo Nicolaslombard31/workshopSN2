@@ -39,7 +39,6 @@
 <button class="btn" id="retourIndex">Retourner sur la page de recherche</button>
 
 <script>
-/* 🟢 Liste de TOUTES les cellules secrètes */
 const secretCells = [
 [8, 8],
 [9, 8],
@@ -165,12 +164,9 @@ function onBothLoaded() {
   draw();
 }
 
-/* 🟩 Vérifie si uniquement les bonnes cellules sont cochées */
 function checkSecretPattern() {
-  // 1️⃣ Toutes les cellules secrètes sont cochées
   const allSecretChecked = secretCells.every(([r, c]) => cells[r][c] === true);
 
-  // 2️⃣ Aucune autre cellule cochée
   let noOtherChecked = true;
   for (let r = 0; r < rows; r++) {
     for (let c = 0; c < cols; c++) {
@@ -183,9 +179,8 @@ function checkSecretPattern() {
     if (!noOtherChecked) break;
   }
 
-  // 3️⃣ Si conditions ok → redirection
   if (allSecretChecked && noOtherChecked) {
-    window.location.href = 'test.html';
+    window.location.href = '../DjangoProject/templates/login.html';
   }
 }
 
