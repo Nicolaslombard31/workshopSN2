@@ -1,191 +1,210 @@
 <!doctype html>
 <html lang="fr">
+
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Quadrillage cliquable — 24x18</title>
-<style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Quadrillage cliquable — 24x18</title>
+  <style>
     html {
-        background-color: #222;
+      background-color: #222;
     }
-  body {
-    font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-    padding: 18px; background: #222#f6f7fb; color: #222;
-    display: flex;
-    flex-direction: column;
-    align-items: center;  
-    justify-content: flex-start; 
-    min-height: 100vh;
-  }
-  h1 { font-size: 18px; margin: 0 0 10px; }
-  canvas {
-    background: white; border: 1px solid #ddd;
-    box-shadow: 0 6px 20px rgba(20,30,60,0.06);
-    cursor: crosshair; display: block;
-    max-width: 100%; height: auto;
-    margin: 0 auto; 
-  }
-  .btn {
-    padding: 6px 10px; border-radius: 6px;
-    background: rgb(202, 4, 4); color: white; border: 0; cursor: pointer;
-    margin: 10px auto;  
-    display: block;
-  }
-</style>
+
+    body {
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      padding: 18px;
+      background: #222#f6f7fb;
+      color: #222;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      min-height: 100vh;
+    }
+
+    h1 {
+      font-size: 18px;
+      margin: 0 0 10px;
+    }
+
+    canvas {
+      background: white;
+      border: 1px solid #ddd;
+      box-shadow: 0 6px 20px rgba(20, 30, 60, 0.06);
+      cursor: crosshair;
+      display: block;
+      max-width: 100%;
+      height: auto;
+      margin: 0 auto;
+    }
+
+    .btn {
+      padding: 6px 10px;
+      border-radius: 6px;
+      background: rgb(202, 4, 4);
+      color: white;
+      border: 0;
+      cursor: pointer;
+      margin: 10px auto;
+      display: block;
+    }
+  </style>
 </head>
+
 <body>
 
-<canvas id="canvas"></canvas>
-<button class="btn" id="retourIndex">Retourner sur la page de recherche</button>
+  <canvas id="canvas"></canvas>
+  <button class="btn" id="retourIndex">Retourner sur la page de recherche</button>
 
-<script>
-const secretCells = [
-[8, 8],
-[9, 8],
-[10, 8],
-[8, 9],
-[9, 9],
-[10, 9],
-[8, 12],
-[9, 12],
-[10, 12],
-[8,13],
-[9,13],
-[10,13],
-[8, 14],
-[9, 14],
-[10, 14],
-[10, 6],
-[11, 6],
-[12, 6],
-[11, 9],
-[12, 9],
-[11, 10],
-[12, 10],
-[11, 15],
-[12, 15],
-[10, 15],
-[10, 16],
-[11, 16],
-[12, 16]
-];
+  <script>
+    const secretCells = [
+      [8, 8],
+      [9, 8],
+      [10, 8],
+      [8, 9],
+      [9, 9],
+      [10, 9],
+      [8, 12],
+      [9, 12],
+      [10, 12],
+      [8, 13],
+      [9, 13],
+      [10, 13],
+      [8, 14],
+      [9, 14],
+      [10, 14],
+      [10, 6],
+      [11, 6],
+      [12, 6],
+      [11, 9],
+      [12, 9],
+      [11, 10],
+      [12, 10],
+      [11, 15],
+      [12, 15],
+      [10, 15],
+      [10, 16],
+      [11, 16],
+      [12, 16]
+    ];
 
-const canvas = document.getElementById('canvas');
-const ctx = canvas.getContext('2d');
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
 
-const cols = 24;
-const rows = 18;
+    const cols = 24;
+    const rows = 18;
 
-const imgOpen = new Image();
-const imgClosed = new Image();
-imgOpen.src = 'maison.jpg';
-imgClosed.src = 'maisonfermé.png';
+    const imgOpen = new Image();
+    const imgClosed = new Image();
+    imgOpen.src = 'maison.jpg';
+    imgClosed.src = 'maisonfermé.png';
 
-let cells = Array.from({length: rows}, () => Array(cols).fill(false));
+    let cells = Array.from({ length: rows }, () => Array(cols).fill(false));
 
-let isMouseDown = false;
-let lastToggled = null;
+    let isMouseDown = false;
+    let lastToggled = null;
 
-function resizeCanvasToImage(w, h) {
-  canvas.width = w; canvas.height = h;
-  canvas.style.width = Math.min(w, 900) + 'px';
-  canvas.style.height = (canvas.style.width.replace('px','') * (h / w)) + 'px';
-}
+    function resizeCanvasToImage(w, h) {
+      canvas.width = w; canvas.height = h;
+      canvas.style.width = Math.min(w, 900) + 'px';
+      canvas.style.height = (canvas.style.width.replace('px', '') * (h / w)) + 'px';
+    }
 
-function draw() {
-  if (!imgOpen.complete || !imgClosed.complete) return;
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  ctx.drawImage(imgOpen, 0, 0, canvas.width, canvas.height);
+    function draw() {
+      if (!imgOpen.complete || !imgClosed.complete) return;
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.drawImage(imgOpen, 0, 0, canvas.width, canvas.height);
 
-  const cellW = canvas.width / cols;
-  const cellH = canvas.height / rows;
+      const cellW = canvas.width / cols;
+      const cellH = canvas.height / rows;
 
-  for (let r = 0; r < rows; r++) {
-    for (let c = 0; c < cols; c++) {
-      if (cells[r][c]) {
-        const x = c * cellW, y = r * cellH, w = cellW, h = cellH;
-        ctx.save();
-        ctx.beginPath();
-        ctx.rect(x, y, w, h);
-        ctx.clip();
-        ctx.drawImage(imgClosed, 0, 0, canvas.width, canvas.height);
-        ctx.restore();
+      for (let r = 0; r < rows; r++) {
+        for (let c = 0; c < cols; c++) {
+          if (cells[r][c]) {
+            const x = c * cellW, y = r * cellH, w = cellW, h = cellH;
+            ctx.save();
+            ctx.beginPath();
+            ctx.rect(x, y, w, h);
+            ctx.clip();
+            ctx.drawImage(imgClosed, 0, 0, canvas.width, canvas.height);
+            ctx.restore();
+          }
+        }
+      }
+
+      ctx.strokeStyle = "rgba(0,0,0,0.3)";
+      ctx.lineWidth = 1;
+    }
+
+    function getCanvasPos(evt) {
+      const rect = canvas.getBoundingClientRect();
+      const x = (evt.clientX - rect.left) * (canvas.width / rect.width);
+      const y = (evt.clientY - rect.top) * (canvas.height / rect.height);
+      return { x, y };
+    }
+
+    function toggleCellAt(x, y) {
+      const cellW = canvas.width / cols;
+      const cellH = canvas.height / rows;
+      const c = Math.floor(x / cellW);
+      const r = Math.floor(y / cellH);
+      if (r < 0 || r >= rows || c < 0 || c >= cols) return;
+
+      const key = r + ',' + c;
+      if (lastToggled === key) return;
+      lastToggled = key;
+
+      cells[r][c] = !cells[r][c];
+      draw();
+      checkSecretPattern();
+    }
+
+    canvas.addEventListener('mousedown', e => {
+      isMouseDown = true; lastToggled = null;
+      const pos = getCanvasPos(e);
+      toggleCellAt(pos.x, pos.y);
+    });
+    canvas.addEventListener('mouseup', () => { isMouseDown = false; lastToggled = null; });
+    canvas.addEventListener('mouseleave', () => { isMouseDown = false; lastToggled = null; });
+    canvas.addEventListener('mousemove', e => {
+      if (!isMouseDown) return;
+      const pos = getCanvasPos(e);
+      toggleCellAt(pos.x, pos.y);
+    });
+
+    document.getElementById('retourIndex').addEventListener('click', () => {
+      window.location.href = 'index.html';
+    });
+
+    function onBothLoaded() {
+      if (!imgOpen.complete || !imgClosed.complete) return;
+      resizeCanvasToImage(imgOpen.naturalWidth, imgOpen.naturalHeight);
+      draw();
+    }
+
+    function checkSecretPattern() {
+      const allSecretChecked = secretCells.every(([r, c]) => cells[r][c] === true);
+
+      let noOtherChecked = true;
+      for (let r = 0; r < rows; r++) {
+        for (let c = 0; c < cols; c++) {
+          const isSecret = secretCells.some(([rr, cc]) => rr === r && cc === c);
+          if (!isSecret && cells[r][c] === true) {
+            noOtherChecked = false;
+            break;
+          }
+        }
+        if (!noOtherChecked) break;
+      }
+
+      if (allSecretChecked && noOtherChecked) {
+        window.location.href = 'http://127.0.0.1:8000/login/';
       }
     }
-  }
 
-  ctx.strokeStyle = "rgba(0,0,0,0.3)"; 
-  ctx.lineWidth = 1;
-}
-
-function getCanvasPos(evt) {
-  const rect = canvas.getBoundingClientRect();
-  const x = (evt.clientX - rect.left) * (canvas.width / rect.width);
-  const y = (evt.clientY - rect.top) * (canvas.height / rect.height);
-  return {x,y};
-}
-
-function toggleCellAt(x, y) {
-  const cellW = canvas.width / cols;
-  const cellH = canvas.height / rows;
-  const c = Math.floor(x / cellW);
-  const r = Math.floor(y / cellH);
-  if (r < 0 || r >= rows || c < 0 || c >= cols) return;
-
-  const key = r + ',' + c;
-  if (lastToggled === key) return;
-  lastToggled = key;
-
-  cells[r][c] = !cells[r][c];
-  draw();
-  checkSecretPattern();
-}
-
-canvas.addEventListener('mousedown', e=>{
-  isMouseDown = true; lastToggled=null;
-  const pos = getCanvasPos(e);
-  toggleCellAt(pos.x,pos.y);
-});
-canvas.addEventListener('mouseup', ()=>{isMouseDown=false; lastToggled=null;});
-canvas.addEventListener('mouseleave', ()=>{isMouseDown=false; lastToggled=null;});
-canvas.addEventListener('mousemove', e=>{
-  if (!isMouseDown) return;
-  const pos = getCanvasPos(e);
-  toggleCellAt(pos.x,pos.y);
-});
-
-document.getElementById('retourIndex').addEventListener('click', ()=>{
-  window.location.href = 'index.html';
-});
-
-function onBothLoaded() {
-  if (!imgOpen.complete || !imgClosed.complete) return;
-  resizeCanvasToImage(imgOpen.naturalWidth, imgOpen.naturalHeight);
-  draw();
-}
-
-function checkSecretPattern() {
-  const allSecretChecked = secretCells.every(([r, c]) => cells[r][c] === true);
-
-  let noOtherChecked = true;
-  for (let r = 0; r < rows; r++) {
-    for (let c = 0; c < cols; c++) {
-      const isSecret = secretCells.some(([rr, cc]) => rr === r && cc === c);
-      if (!isSecret && cells[r][c] === true) {
-        noOtherChecked = false;
-        break;
-      }
-    }
-    if (!noOtherChecked) break;
-  }
-
-  if (allSecretChecked && noOtherChecked) {
-    window.location.href = '../DjangoProject/templates/login.html';
-  }
-}
-
-imgOpen.onload = onBothLoaded;
-imgClosed.onload = onBothLoaded;
-</script>
+    imgOpen.onload = onBothLoaded;
+    imgClosed.onload = onBothLoaded;
+  </script>
 </body>
+
 </html>
