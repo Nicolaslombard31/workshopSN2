@@ -4,8 +4,8 @@ from django.conf import settings
 
 class Message(models.Model):
     id = models.AutoField(primary_key=True)
-    sender = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='sender', on_delete=models.CASCADE)
-    receiver = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='receiver', on_delete=models.CASCADE)
+    sender = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="sender", on_delete=models.CASCADE)
+    receiver = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="receiver", on_delete=models.CASCADE)
     message = models.TextField()
     date = models.DateTimeField(default=timezone.now)
     def __str__(self):

@@ -9,13 +9,12 @@
 <body class="bg-gray-900 text-white min-h-screen flex flex-col">
     <nav class="bg-gray-800 p-4 flex justify-between">
         <span class="text-green-400 font-bold">💂 MI6 Secure Channel</span>
-        <a href="{% url 'login' %}" class="text-red-400 hover:text-red-600">Logout</a>
+        <a href="{% url 'logout' %}" class="text-red-400 hover:text-red-600">Logout</a>
     </nav>
 
     <main class="flex-grow container mx-auto p-6">
         <h1 class="text-2xl font-bold mb-4">Bienvenue, Agent {{ user.username }}</h1>
 
-        <!-- Formulaire d'envoi -->
         <form method="post" class="bg-gray-800 p-4 rounded-lg mb-6">
             {% csrf_token %}
             <label class="block mb-2">Destinataire :</label>
@@ -38,11 +37,20 @@
             <h2 class="text-xl font-bold mb-3">📜 Messages</h2>
             <ul>
                 {% for msg in messages %}
-                <li class="mb-2">
-                    <span class="font-bold text-green-400">{{ msg.sender.username }}</span>
-                    → <span class="text-blue-400">{{ msg.receiver.username }}</span> :
-                    <span class="text-gray-200">{{ msg.message }}</span>
-                    <small class="text-gray-500">({{ msg.date|date:"H:i d/m/Y" }})</small>
+                <li class="mb-2 flex items-center justify-between">
+                    <div>
+                        <span class="font-bold text-green-400">{{ msg.sender.username }}</span>
+                        → <span class="text-blue-400">{{ msg.receiver.username }}</span> :
+                        <span class="text-gray-200">{{ msg.message }}</span>
+                        <small class="text-gray-500">({{ msg.date|date:"H:i d/m/Y" }})</small>
+                    </div>
+
+                    {% if msg.sender == user %}
+                    <a href="{% url 'delete_message' msg.id %}"
+                       class="ml-4 text-red-400 hover:text-red-600 font-semibold">
+                        🗑 Supprimer
+                    </a>
+                    {% endif %}
                 </li>
                 {% empty %}
                 <li class="text-gray-400">Aucun message pour le moment...</li>
