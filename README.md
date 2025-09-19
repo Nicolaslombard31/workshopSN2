@@ -117,8 +117,7 @@ projet/
 │   ├── code_maison.html
 │   ├── contact.html
 │   ├── reserver.html
-│   └── test.html
-├── image/                   
+│   ├── image/               
 └── README.md               
 
 ```
