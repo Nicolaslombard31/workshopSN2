@@ -9,7 +9,10 @@
 <body class="bg-gray-900 text-white min-h-screen flex flex-col">
     <nav class="bg-gray-800 p-4 flex justify-between">
         <span class="text-green-400 font-bold">💂 MI6 Secure Channel</span>
-        <a href="{% url 'logout' %}" class="text-red-400 hover:text-red-600">Logout</a>
+        <form method="post" action="{% url 'logout' %}">
+            {% csrf_token %}
+            <button type="submit" class="text-red-400 hover:text-red-600"> Logout </button>
+        </form>
     </nav>
 
     <main class="flex-grow container mx-auto p-6">
@@ -24,7 +27,7 @@
                 {% endfor %}
             </select>
 
-            <label class="block mb-2">Message :</label>
+            <label class="block mb-2">Messages :</label>
             <textarea name="message" rows="3" class="text-black rounded w-full p-2 mb-4"></textarea>
 
             <button type="submit" class="bg-green-500 hover:bg-green-600 px-4 py-2 rounded-lg text-white font-semibold">
@@ -32,9 +35,8 @@
             </button>
         </form>
 
-        <!-- Liste des messages -->
         <div class="bg-gray-800 p-4 rounded-lg">
-            <h2 class="text-xl font-bold mb-3">📜 Messages</h2>
+            <h2 class="text-xl font-bold mb-3">📜Historique des messages</h2>
             <ul>
                 {% for msg in messages %}
                 <li class="mb-2 flex items-center justify-between">
